@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="icon" type="image/png" href="media/img/favicon.png" />
+
+    <title>Balancing Scales</title>
+
+    <link rel="stylesheet" type="text/css" href="media/style.css" />
+    <script type="text/javascript" src="media/angular.js"></script>
+  </head>
+  <body>
+    <div id="wrapper" ng-app="myApp" ng-controller="myCtrl">
+      <div id="intro" ng-if="!introPage">
+        <img src="media/img/intro_graph.png" alt="" />
+        <span class="footerBg"></span>
+        <span class="flashingBtn"></span>
+        <div class="startButton" ng-click="toggleView()"></div>
+        <div class="intText">Interactive Activity</div>
+      </div>
+
+      <!-- Screen 2 - Activity -->
+      <div id="activityArea" ng-if="introPage">
+        <span class="btn-reset" ng-click="resetType()">Reset</span>
+        <ul class="input-btn-icon">
+          <li class="left-cube-dec cube-control">
+            <span
+              ng-class="{'disabled':leftSideCubes === 0}"
+              ng-click="incDecCubeBagFunc('left', 'cube', '-')"
+              >-</span
+            >
+            <img src="media/img/single-cude.png" />
+            <span
+              ng-class="{'disabled':leftSideCubes === 30}"
+              ng-click=" incDecCubeBagFunc('left', 'cube' , '+')"
+              >+</span
+            >
+          </li>
+          <li class="left-bag-inc bag-control">
+            <span
+              ng-class="{'disabled':leftSideBags === 0}"
+              ng-click="incDecCubeBagFunc('left', 'bag', '-')"
+              >-</span
+            >
+            <img src="media/img/single-bag.png" />
+            <span
+              ng-class="{'disabled':leftSideBags === 4}"
+              ng-click="incDecCubeBagFunc('left', 'bag', '+')"
+              >+</span
+            >
+          </li>
+          <li class="right-cude-dec cube-control">
+            <span
+              ng-class="{'disabled':rightSideCubes === 0}"
+              ng-click="incDecCubeBagFunc('right', 'cube', '-')"
+              >-</span
+            >
+            <img src="media/img/single-cude.png" />
+            <span
+              ng-class="{'disabled':rightSideCubes === 30}"
+              ng-click="incDecCubeBagFunc('right', 'cube', '+')"
+              >+</span
+            >
+          </li>
+          <li class="right-bag-inc bag-control">
+            <span
+              ng-class="{'disabled':rightSideBags === 0}"
+              ng-click="incDecCubeBagFunc('right', 'bag', '-')"
+              >-</span
+            >
+            <img src="media/img/single-bag.png" />
+            <span
+              ng-class="{'disabled':rightSideBags === 4}"
+              ng-click="incDecCubeBagFunc('right', 'bag', '+')"
+              >+</span
+            >
+          </li>
+        </ul>
+        <div
+          class="weighing-tool"
+          ng-class="{'left-side-more':leftSideMoreValue, 'right-side-more':rightSideMoreValue}"
+        ></div>
+        <div
+          class="left-side-weights"
+          ng-class="{'down-weight-pos':leftSideMoreValue, 'up-weight-pos':rightSideMoreValue}"
+        >
+          <div class="left-bag-sprite bags-sprite bags-{{leftSideBags}}"></div>
+          <div
+            class="left-cube-sprite cubes-sprite cubes-{{leftSideCubes}}"
+          ></div>
+        </div>
+        <div
+          class="right-side-weights"
+          ng-class="{'up-weight-pos':leftSideMoreValue, 'down-weight-pos':rightSideMoreValue}"
+        >
+          <div
+            class="right-bag-sprite bags-sprite bags-{{rightSideBags}}"
+          ></div>
+          <div
+            class="right-cube-sprite cubes-sprite cubes-{{rightSideCubes}}"
+          ></div>
+        </div>
+        <div
+          class="show-masg-conatianer"
+          ng-bind-html="showMsgText | to_trusted"
+        ></div>
+
+        <!-- Buttons -->
+        <span class="btn_intro" ng-click="toggleView()"></span>
+        <div class="problem-radio">
+          <p>Problem:</p>
+          <div class="radio-btn">
+            <span>
+              <input
+                type="radio"
+                id="atype"
+                checked
+                ng-click="selectType('a')"
+                name="problem"
+                value="a"
+              />
+              <label for="atype">A</label>
+            </span>
+            <span>
+              <input
+                type="radio"
+                id="btype"
+                ng-click="selectType('b')"
+                name="problem"
+                value="b"
+              />
+              <label for="btype">B</label>
+            </span>
+            <span>
+              <input
+                type="radio"
+                id="ctype"
+                ng-click="selectType('c')"
+                name="problem"
+                value="c"
+              />
+              <label for="ctype">C</label>
+            </span>
+          </div>
+        </div>
+        <span class="btn_reset" ng-click="showHintLabelFunc()"
+          >{{hintLabel}}</span
+        >
+        <div class="hint-msg" ng-show="showHintMsg">
+          <span
+            ng-repeat="i in hintMsgArre track by $index"
+            ng-bind-html="i | to_trusted"
+            ng-show="showMsgItem === $index"
+          ></span>
+        </div>
+
+        <!-- Insutruction -->
+        <div id="instruction">
+          <div class="topBtn" ng-click="toggleIns(2)">Open Instructions</div>
+          <div class="bottomBtn" ng-click="toggleIns(1)">
+            Close Instructions
+          </div>
+          <div class="insContent">
+            <ol>
+              <li
+                ng-repeat="i in insContent track by $index"
+                ng-bind-html="i | to_trusted"
+              ></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="media/jquery.js"></script>
+    <script type="text/javascript" src="media/controller.js"></script>
+  </body>
+</html>
